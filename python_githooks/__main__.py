@@ -47,7 +47,8 @@ def main():
         args = parse_args()
         if args.hook:
             execute_git_hook(
-                configfile_path=__GITHOOKS_CONFIGFILE_PATH__, section=args.hook.strip()
+                hook_name=args.hook.strip(),
+                configfile_path=__GITHOOKS_CONFIGFILE_PATH__,
             )
             return
         if args.deactivate:

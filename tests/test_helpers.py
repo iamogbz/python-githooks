@@ -1,5 +1,6 @@
 import os
 from configparser import ConfigParser
+from python_githooks.constants import AVAILABLE_HOOKS
 from python_githooks.helpers import create_config_file, create_git_hooks, execute_git_hook
 
 
@@ -16,8 +17,8 @@ def test_config_file_default_values(workspace_without_git):
     create_config_file(configfile_path=configfile_path)
     config = ConfigParser()
     config.read(configfile_path)
-    assert config.sections() == ['pre-commit']
-    assert config['pre-commit']['command'] == 'echo Pre commit hook installed. Replace this line with your own command'
+    assert config.sections() == list(AVAILABLE_HOOKS)
+    assert config['pre-commit']['command'] == 'echo Replace this line with your own command'
 
 
 def test_git_hook_creation(workspace_with_git):
@@ -26,7 +27,7 @@ def test_git_hook_creation(workspace_with_git):
     assert os.path.isfile(os.path.join(githooks_dir, 'pre-commit')) is False
     configfile_path = os.path.join(workspace_with_git, '.githooks.ini')
     create_config_file(configfile_path=configfile_path)
-    create_git_hooks(configfile_path, githooks_dir)
+    create_git_hooks(configfile_path=configfile_path, githooks_dir=githooks_dir)
     assert os.path.isfile(os.path.join(githooks_dir, 'pre-commit')) is True
     with open(os.path.join(githooks_dir, 'pre-commit'), 'r') as f:
         assert f.read() == 'githooks pre-commit'
@@ -37,7 +38,7 @@ def test_git_hook_creation_permissions(workspace_with_git):
     githooks_dir = os.path.join(workspace_with_git, '.git/hooks')
     configfile_path = os.path.join(workspace_with_git, '.githooks.ini')
     create_config_file(configfile_path=configfile_path)
-    create_git_hooks(configfile_path, githooks_dir)
+    create_git_hooks(configfile_path=configfile_path, githooks_dir=githooks_dir)
     assert os.access(os.path.join(githooks_dir, 'pre-commit'), os.X_OK) is True
 
 
@@ -45,7 +46,7 @@ def test_git_hook_creation_exit(mocker, workspace_with_git):
     """create_git_hooks helper function should exit if not valid configuration file is provided"""
     mocked_sys_exit = mocker.patch('sys.exit')
     githooks_dir = os.path.join(workspace_with_git, '.git/hooks')
-    create_git_hooks('wrong_config_file.ini', githooks_dir)
+    create_git_hooks(configfile_path='wrong_config_file.ini', githooks_dir=githooks_dir)
     mocked_sys_exit.assert_called_once_with(1)
 
 
@@ -53,5 +54,5 @@ def test_git_hook_execution_exit(mocker, workspace_with_config):
     """execute_git_hook helper function should exit with command successfully executed"""
     mocked_sys_exit = mocker.patch('sys.exit')
     configfile_path = os.path.join(workspace_with_config, '.githooks.ini')
-    execute_git_hook('pre-commit', configfile_path)
+    execute_git_hook(hook_name='pre-commit', configfile_path=configfile_path)
     mocked_sys_exit.assert_called_once_with(0)

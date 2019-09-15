@@ -75,7 +75,7 @@ def _create_git_hook(*, hook_name, config_section, githook_file):
 def create_git_hooks(*, configfile_path, githooks_dir):
     config = _get_config_file(configfile_path)
     if not config:
-        _unable_to_find_config()
+        return _unable_to_find_config()
 
     for section in config.sections():
         _create_git_hook(
@@ -117,7 +117,7 @@ def delete_git_hooks(*, configfile_path, githooks_dir):
     config = _get_config_file(configfile_path)
     try:
         if not config:
-            _unable_to_find_config()
+            return _unable_to_find_config()
 
         for hook in AVAILABLE_HOOKS:
             _delete_git_hook(
@@ -134,12 +134,15 @@ def delete_git_hooks(*, configfile_path, githooks_dir):
         )
 
 
-def execute_git_hook(*, configfile_path, section):
-    print("python-githooks > {}".format(section))
+def execute_git_hook(*, hook_name, configfile_path):
+    action = "python-githooks > {}".format(hook_name)
     config = _get_config_file(configfile_path)
     if not config:
-        _unable_to_find_config()
+        print(action)
+        return _unable_to_find_config()
 
-    if config.has_option(section, CONFIG_COMMAND_KEY):
-        command = config[section][CONFIG_COMMAND_KEY]
-        sys.exit(subprocess.call(command, shell=True))
+    if config.has_option(hook_name, CONFIG_COMMAND_KEY):
+        command = config[hook_name][CONFIG_COMMAND_KEY]
+        if command:
+            print(action)
+            sys.exit(subprocess.call(command, shell=True))
