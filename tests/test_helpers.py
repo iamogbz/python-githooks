@@ -4,6 +4,7 @@ from python_githooks.constants import AVAILABLE_HOOKS, DEFAULT_COMMANDS
 from python_githooks.helpers import (
     create_config_file,
     create_git_hooks,
+    delete_git_hooks,
     execute_git_hook,
 )
 
@@ -39,23 +40,6 @@ def test_git_hook_creation(workspace_with_git):
             assert f.read() == "githooks {}".format(hook_name)
 
 
-def test_git_hook_preservation(workspace_with_git):
-    """create_config_file helper function should preserve valid existing hook values"""
-    with open(os.path.join(workspace_with_git.hooks, "pre-commit"), "w") as f:
-        f.write("echo successfully preserved")
-    with open(os.path.join(workspace_with_git.hooks, "post-commit"), "w") as f:
-        f.write("githooks donotkeep")
-
-    create_config_file(configfile_path=workspace_with_git.config)
-    create_git_hooks(
-        configfile_path=workspace_with_git.config, githooks_dir=workspace_with_git.hooks
-    )
-    config = ConfigParser()
-    config.read(workspace_with_git.config)
-    assert config["pre-commit"]["command"] == "echo successfully preserved"
-    assert config["post-commit"]["command"] == ""
-
-
 def test_git_hook_creation_permissions(workspace_with_git):
     """create_git_hooks helper function should create hooks files with correct permissions"""
     create_config_file(configfile_path=workspace_with_git.config)
@@ -73,6 +57,46 @@ def test_git_hook_creation_exit(mocker, workspace_with_git):
         configfile_path="wrong_config_file.ini", githooks_dir=workspace_with_git.hooks
     )
     mocked_sys_exit.assert_called_once_with(1)
+
+
+def test_git_hook_creation_preservation(workspace_with_git):
+    """create_config_file helper function should preserve valid existing hook values"""
+    with open(os.path.join(workspace_with_git.hooks, "pre-commit"), "w") as f:
+        f.write("echo successfully preserved")
+    with open(os.path.join(workspace_with_git.hooks, "post-commit"), "w") as f:
+        f.write("githooks donotkeep")
+
+    create_config_file(configfile_path=workspace_with_git.config)
+    create_git_hooks(
+        configfile_path=workspace_with_git.config, githooks_dir=workspace_with_git.hooks
+    )
+    config = ConfigParser()
+    config.read(workspace_with_git.config)
+    assert config["pre-commit"]["command"] == "echo successfully preserved"
+    assert config["post-commit"]["command"] == ""
+
+
+def test_git_hook_deletion_preservation(workspace_with_git):
+    """create_config_file helper function should preserve valid existing hook values"""
+    with open(os.path.join(workspace_with_git.hooks, "pre-commit"), "w") as f:
+        f.write("echo successfully preserved")
+    with open(os.path.join(workspace_with_git.hooks, "post-commit"), "w") as f:
+        f.write("githooks donotkeep")
+
+    create_config_file(configfile_path=workspace_with_git.config)
+    create_git_hooks(
+        configfile_path=workspace_with_git.config, githooks_dir=workspace_with_git.hooks
+    )
+    with open(os.path.join(workspace_with_git.hooks, "post-commit"), "w") as f:
+        f.write("echo also keep this new command")
+
+    delete_git_hooks(
+        configfile_path=workspace_with_git.config, githooks_dir=workspace_with_git.hooks
+    )
+    with open(os.path.join(workspace_with_git.hooks, "pre-commit"), "r") as f:
+        assert f.read() == "echo successfully preserved"
+    with open(os.path.join(workspace_with_git.hooks, "post-commit"), "r") as f:
+        assert f.read() == "echo also keep this new command"
 
 
 def test_git_hook_execution_no_config(mocker):
