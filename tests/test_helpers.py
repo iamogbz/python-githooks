@@ -36,7 +36,7 @@ def test_git_hook_creation(workspace_with_git):
     )
 
     for hook_name in AVAILABLE_HOOKS:
-        assert os.path.isfile(os.path.join(workspace_with_git.hooks, hook_name)) is True
+        assert os.path.isfile(os.path.join(workspace_with_git.hooks, hook_name))
         with open(os.path.join(workspace_with_git.hooks, hook_name), "r") as f:
             assert f.read() == "githooks {}".format(hook_name)
 
@@ -65,10 +65,7 @@ def test_git_hook_creation_permissions(workspace_with_git):
         configfile_path=workspace_with_git.config, githooks_dir=workspace_with_git.hooks
     )
     for hook_name in AVAILABLE_HOOKS:
-        assert (
-            os.access(os.path.join(workspace_with_git.hooks, hook_name), os.X_OK)
-            is True
-        )
+        assert os.access(os.path.join(workspace_with_git.hooks, hook_name), os.X_OK)
 
 
 def test_git_hook_creation_exit(mocker, workspace_with_git):
