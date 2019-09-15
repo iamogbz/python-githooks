@@ -8,6 +8,7 @@ from .constants import (
     AVAILABLE_HOOKS,
     CONFIG_COMMAND_KEY,
     CONFIG_FILENAME,
+    DEFAULT_COMMANDS,
     DEFAULT_CONFIGURATION,
     GITHOOKS_RELATIVE_DIR,
 )
@@ -48,6 +49,7 @@ def _create_git_hook(*, hook_name, config_section, githook_file):
     hook_command = (
         CONFIG_COMMAND_KEY in config_section and config_section[CONFIG_COMMAND_KEY]
     )
+    is_default_hook = hook_command == DEFAULT_COMMANDS.get(hook_name)
     has_existing_hook_file = os.path.isfile(githook_file)
     existing_hook = None
     if has_existing_hook_file:
@@ -55,13 +57,15 @@ def _create_git_hook(*, hook_name, config_section, githook_file):
             existing_hook = "; ".join(f.read().strip().splitlines())
 
     if existing_hook and not _command_is_githook_shim(existing_hook):
-        print("Replacing" if hook_command else "Using", "existing hook command")
-        if not hook_command:
+        keep_existing = is_default_hook or not hook_command
+        print("Using" if keep_existing else "Replacing", "existing hook command")
+        if keep_existing:
             config_section[CONFIG_COMMAND_KEY] = existing_hook
             hook_command = existing_hook
 
     with open(githook_file, "w") as f:
         f.write("githooks {}".format(hook_name))
+
     st = os.stat(githook_file)
     os.chmod(githook_file, st.st_mode | stat.S_IEXEC)
 
@@ -105,9 +109,11 @@ def _delete_git_hook(*, hook_name, config_section, githook_file):
 
     with open(githook_file, "r") as f:
         existing_hook = f.read().strip()
+
     if _command_is_githook_shim(existing_hook):
         with open(githook_file, "w") as f:
             f.write(hook_command)
+
         if hook_command:
             print("\n{} hook successfully unshimmed ↓↓↓".format(hook_name))
             print("$> {}\n".format(hook_command))

@@ -41,6 +41,23 @@ def test_git_hook_creation(workspace_with_git):
             assert f.read() == "githooks {}".format(hook_name)
 
 
+def test_git_hook_preservation(workspace_with_git):
+    """create_config_file helper function should preserve valid existing hook values"""
+    configfile_path = os.path.join(workspace_with_git, ".githooks.ini")
+    githooks_dir = os.path.join(workspace_with_git, ".git/hooks")
+    with open(os.path.join(githooks_dir, "pre-commit"), "w") as f:
+        f.write("echo successfully preserved")
+    with open(os.path.join(githooks_dir, "post-commit"), "w") as f:
+        f.write("githooks donotkeep")
+
+    create_config_file(configfile_path=configfile_path)
+    create_git_hooks(configfile_path=configfile_path, githooks_dir=githooks_dir)
+    config = ConfigParser()
+    config.read(configfile_path)
+    assert config["pre-commit"]["command"] == "echo successfully preserved"
+    assert config["post-commit"]["command"] == ""
+
+
 def test_git_hook_creation_permissions(workspace_with_git):
     """create_git_hooks helper function should create hooks files with correct permissions"""
     githooks_dir = os.path.join(workspace_with_git, ".git/hooks")
