@@ -57,3 +57,15 @@ def test_main_entry_point_githook_execution(mocker, no_sys_args, workspace_with_
         assert mocked_execute_git_hook.call_count == 1
         assert mocked_execute_git_hook.call_args[1]["hook_name"] == "pre-commit"
         mocked_sys_exit.assert_called_once_with(0)
+
+
+def test_main_entry_point_deactivation(mocker, no_sys_args, workspace_with_config):
+    """main function should execute first argument as githook"""
+    with mock_githooks_main(workspace_with_config) as mocked_githooks_main:
+        mocked_delete_git_hook = mocker.spy(mocked_githooks_main, "delete_git_hooks")
+        sys.argv.extend(["--activate", "--deactivate"])
+        main()
+        mocked_delete_git_hook.assert_called_once_with(
+            configfile_path=workspace_with_config.config,
+            githooks_dir=workspace_with_config.hooks,
+        )
