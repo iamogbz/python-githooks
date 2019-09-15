@@ -25,7 +25,8 @@ GITHOOKS_RELATIVE_DIR = os.path.join(".git", "hooks")
 # Githooks configuration
 CONFIG_FILENAME = ".githooks.ini"
 CONFIG_COMMAND_KEY = "command"
+DEFAULT_COMMANDS = {"pre-commit": "echo Replace this line with your own command"}
 DEFAULT_CONFIGURATION = {
-    **{hook: {CONFIG_COMMAND_KEY: ""} for hook in AVAILABLE_HOOKS},
-    "pre-commit": {CONFIG_COMMAND_KEY: "echo Replace this line with your own command"},
+    hook: {CONFIG_COMMAND_KEY: DEFAULT_COMMANDS.get(hook, "")}
+    for hook in sorted(AVAILABLE_HOOKS)
 }

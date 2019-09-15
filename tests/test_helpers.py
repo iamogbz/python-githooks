@@ -1,6 +1,6 @@
 import os
 from configparser import ConfigParser
-from python_githooks.constants import AVAILABLE_HOOKS
+from python_githooks.constants import AVAILABLE_HOOKS, DEFAULT_COMMANDS
 from python_githooks.helpers import (
     create_config_file,
     create_git_hooks,
@@ -17,13 +17,12 @@ def test_config_file_creation(workspace_without_git):
 
 def test_config_file_default_values(workspace_without_git):
     """create_config_file helper function should create file with defaults values"""
-    default_pre_commit_command = "echo Replace this line with your own command"
     configfile_path = os.path.join(workspace_without_git, ".githooks.ini")
     create_config_file(configfile_path=configfile_path)
     config = ConfigParser()
     config.read(configfile_path)
-    assert config.sections() == list(AVAILABLE_HOOKS)
-    assert config["pre-commit"]["command"] == default_pre_commit_command
+    assert config.sections() == sorted(AVAILABLE_HOOKS)
+    assert config["pre-commit"]["command"] == DEFAULT_COMMANDS.get("pre-commit")
 
 
 def test_git_hook_creation(workspace_with_git):
