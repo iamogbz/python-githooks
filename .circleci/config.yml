@@ -35,12 +35,13 @@ jobs:
           command: |
             . venv/bin/activate
             flake8 --statistics
-            pytest -v --cov --junitxml=test-reports/junit.xml
+            pytest -v --cov
+            coverage xml
             coveralls
       - store_test_results:
-          path: test-reports
+          path: coverage.xml
       - store_artifacts:
-          path: test-reports
+          path: coverage.xml
   deploy:
     <<: *defaults
     steps:
