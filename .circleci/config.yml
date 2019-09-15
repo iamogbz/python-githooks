@@ -35,7 +35,7 @@ jobs:
           command: |
             . venv/bin/activate
             flake8 --statistics
-            coverage run -m pytest -v --cov
+            coverage run -m pytest -v
             coveralls debug
       - store_test_results:
           path: test-reports
