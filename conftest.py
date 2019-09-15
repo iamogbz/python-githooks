@@ -1,4 +1,5 @@
 import os
+import sys
 import shutil
 import pytest
 from collections import namedtuple
@@ -10,6 +11,14 @@ __GITHOOKS_CONFIGFILE_PATH__ = os.path.join(__BASE_DIR__, ".githooks.ini")
 __PATHS__ = namedtuple("Paths", ["base", "hooks", "config"])(
     base=__BASE_DIR__, hooks=__GITHOOKS_BASE_DIR__, config=__GITHOOKS_CONFIGFILE_PATH__
 )
+
+
+@pytest.fixture
+def no_sys_args():
+    initial_args = sys.argv
+    sys.argv = initial_args[:1]
+    yield sys.argv
+    sys.argv = initial_args
 
 
 @pytest.fixture
