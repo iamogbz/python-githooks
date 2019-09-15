@@ -3,7 +3,6 @@ import sys
 import stat
 import subprocess
 from configparser import ConfigParser
-from contextlib import contextmanager
 
 from .constants import (
     AVAILABLE_HOOKS,
