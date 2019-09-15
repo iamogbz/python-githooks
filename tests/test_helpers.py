@@ -26,9 +26,7 @@ def test_config_file_default_values(workspace_without_git):
 def test_git_hook_creation(workspace_with_git):
     """create_git_hooks helper function should create hooks files in the git hook folder"""
     for hook_name in AVAILABLE_HOOKS:
-        assert (
-            os.path.isfile(os.path.join(workspace_with_git.hooks, hook_name)) is False
-        )
+        assert not os.path.isfile(os.path.join(workspace_with_git.hooks, hook_name))
 
     create_config_file(configfile_path=workspace_with_git.config)
     create_git_hooks(
