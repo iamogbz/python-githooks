@@ -1,14 +1,14 @@
-# python-githooks
+# py-githooks
 
 [![code linting: flake8](https://img.shields.io/badge/lint-flake8-blue.svg)](http://flake8.pycqa.org/) [![code quality: pytest](https://img.shields.io/badge/test-pytest-yellow.svg)](https://docs.pytest.org/) [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
-[![CircleCI](https://circleci.com/gh/ygpedroso/python-githooks.svg?style=svg)](https://circleci.com/gh/ygpedroso/python-githooks)
+[![CircleCI](https://circleci.com/gh/iamogbz/python-githooks.svg?style=svg)](https://circleci.com/gh/iamogbz/python-githooks)
 
 > Create git hooks with ease using a simple configuration file in a git project
 
 ## Install
 
 ```bash
-pip install python-githooks
+pip install py-githooks
 ```
 
 ## Usage
@@ -28,8 +28,6 @@ command = pytest --cov
 [pre-push]
 command = pytest --cov && flake8
 ```
-
-* Remember to re-run `python -m python_githooks` or `githooks` when you add new hooks.
 
 ## Removing a hook
 
@@ -53,4 +51,4 @@ This will not actually physically remove the hook from the git local project, ju
 
 ## License
 
-python-githooks is [MIT-licensed](https://github.com/ygpedroso/python-githooks/blob/master/LICENSE).
+py-githooks is [MIT-licensed](LICENSE).

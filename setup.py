@@ -24,14 +24,14 @@ class VerifyVersionCommand(install):
 
 
 setup(
-    name="python-githooks",
+    name="py-githooks",
     version=VERSION,
     description="Create git hooks with ease using a simple configuration file in a git project",
     long_description=README,
     long_description_content_type="text/markdown",
-    url="https://github.com/ygpedroso/python-githooks",
-    author="Yannier González Pedroso",
-    author_email="ygpedroso2503@gmail.com",
+    url="https://github.com/iamogbz/python-githooks",
+    author="Emmanuel Ogbizi-Ugbe",
+    author_email="iamogbz+pygithooks@gmail.com",
     license="MIT",
     classifiers=[
         "License :: OSI Approved :: MIT License",
