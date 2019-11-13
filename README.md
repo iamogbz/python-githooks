@@ -1,7 +1,8 @@
 # py-githooks
 
-[![code linting: flake8](https://img.shields.io/badge/lint-flake8-blue.svg)](http://flake8.pycqa.org/) [![code quality: pytest](https://img.shields.io/badge/test-pytest-yellow.svg)](https://docs.pytest.org/) [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
-[![CircleCI](https://circleci.com/gh/iamogbz/python-githooks.svg?style=svg)](https://circleci.com/gh/iamogbz/python-githooks)
+[![code linting: flake8](https://img.shields.io/badge/lint-flake8-blue.svg)](http://flake8.pycqa.org/) [![code quality: pytest](https://img.shields.io/badge/test-pytest-green.svg)](https://docs.pytest.org/) [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/) [![CircleCI](https://circleci.com/gh/iamogbz/python-githooks.svg?style=svg)](https://circleci.com/gh/iamogbz/python-githooks)
+[![Coverage Status](https://coveralls.io/repos/github/iamogbz/python-githooks/badge.svg?branch=master)](https://coveralls.io/github/iamogbz/python-githooks?branch=master)
+[![Dependabot badge](https://badgen.net/dependabot/iamogbz/python-githooks/?icon=dependabot)](https://app.dependabot.com)
 
 > Create git hooks with ease using a simple configuration file in a git project
 
