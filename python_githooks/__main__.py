@@ -46,18 +46,16 @@ def main():
     if os.path.isdir(__GITHOOKS_BASE_DIR__):
         args = parse_args()
         if args.hook:
-            execute_git_hook(
+            return execute_git_hook(
                 hook_name=args.hook.strip(),
                 configfile_path=__GITHOOKS_CONFIGFILE_PATH__,
             )
-            return
-        if args.deactivate:
-            delete_git_hooks(
+        elif args.deactivate:
+            return delete_git_hooks(
                 configfile_path=__GITHOOKS_CONFIGFILE_PATH__,
                 githooks_dir=__GITHOOKS_BASE_DIR__,
             )
-            return
-        if args.activate:
+        elif args.activate:
             if not os.path.isfile(__GITHOOKS_CONFIGFILE_PATH__):
                 print("Creating sample configuration")
                 create_config_file(configfile_path=__GITHOOKS_CONFIGFILE_PATH__)
@@ -65,11 +63,10 @@ def main():
                 print("Found configuration file")
 
             print("Installing githooks...\n")
-            create_git_hooks(
+            return create_git_hooks(
                 configfile_path=__GITHOOKS_CONFIGFILE_PATH__,
                 githooks_dir=__GITHOOKS_BASE_DIR__,
             )
-            return
     else:
         message = """
         Sorry, this is not a GIT repository.
