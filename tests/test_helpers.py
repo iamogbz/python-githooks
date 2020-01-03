@@ -60,7 +60,7 @@ def test_git_hook_creation_exit(mocker, workspace_with_git):
 
 
 def test_git_hook_creation_preservation(workspace_with_git):
-    """create_config_file helper function should preserve valid existing hook values"""
+    """create_git_hooks helper function should preserve valid existing hook values"""
     with open(os.path.join(workspace_with_git.hooks, "pre-commit"), "w") as f:
         f.write("echo successfully preserved")
     with open(os.path.join(workspace_with_git.hooks, "post-commit"), "w") as f:
@@ -77,7 +77,7 @@ def test_git_hook_creation_preservation(workspace_with_git):
 
 
 def test_git_hook_deletion_preservation(workspace_with_git):
-    """create_config_file helper function should preserve valid existing hook values"""
+    """delete_git_hooks helper function should preserve valid existing hook values"""
     with open(os.path.join(workspace_with_git.hooks, "pre-commit"), "w") as f:
         f.write("echo successfully preserved")
     with open(os.path.join(workspace_with_git.hooks, "post-commit"), "w") as f:
@@ -100,7 +100,7 @@ def test_git_hook_deletion_preservation(workspace_with_git):
 
 
 def test_git_hook_execution_no_config(mocker):
-    """execute_git_hook helper function should exit with command successfully executed"""
+    """execute_git_hook helper function should exit if not valid configuration file is provided"""
     mocked_sys_exit = mocker.patch("sys.exit")
     execute_git_hook(hook_name="pre-commit", configfile_path="wrong_config_file.ini")
     mocked_sys_exit.assert_called_once_with(1)
