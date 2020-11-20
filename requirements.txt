@@ -2,7 +2,7 @@ atomicwrites==1.4.0
 attrs==20.3.0
 configparser==5.0.1
 coverage==5.3
-coveralls==2.1.2
+coveralls==2.2.0
 flake8==3.8.4
 mccabe==0.6.1
 more-itertools==8.6.0
