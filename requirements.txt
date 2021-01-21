@@ -11,6 +11,6 @@ py==1.10.0
 pycodestyle==2.6.0
 pyflakes==2.2.0
 pytest==6.2.1
-pytest-cov==2.11.0
+pytest-cov==2.11.1
 pytest-mock==3.5.1
 six==1.15.0
