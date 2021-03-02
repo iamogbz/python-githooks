@@ -1,6 +1,6 @@
 atomicwrites==1.4.0
 attrs==20.3.0
-configparser==5.0.1
+configparser==5.0.2
 coverage==5.4
 coveralls==3.0.1
 flake8==3.8.4
