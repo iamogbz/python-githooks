@@ -1,5 +1,5 @@
 atomicwrites==1.4.0
-attrs==21.1.0
+attrs==21.2.0
 configparser==5.0.2
 coverage==5.5
 coveralls==3.0.1
