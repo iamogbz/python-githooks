@@ -1,7 +1,7 @@
 atomicwrites==1.4.0
 attrs==21.2.0
 configparser==5.0.2
-coverage==5.5
+coverage==6.0
 coveralls==3.2.0
 flake8==3.9.2
 mccabe==0.6.1
