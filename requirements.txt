@@ -9,7 +9,7 @@ more-itertools==8.10.0
 pluggy==1.0.0
 py==1.10.0
 pycodestyle==2.7.0
-pyflakes==2.3.1
+pyflakes==2.4.0
 pytest==6.2.5
 pytest-cov==3.0.0
 pytest-mock==3.6.1
