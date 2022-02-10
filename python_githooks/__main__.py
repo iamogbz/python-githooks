@@ -10,7 +10,7 @@ from .helpers import (
     execute_git_hook,
 )
 
-__BASE_DIR__ = os.environ["PWD"]
+__BASE_DIR__ = os.getcwd()
 __GITHOOKS_BASE_DIR__ = os.path.join(__BASE_DIR__, GITHOOKS_RELATIVE_DIR)
 __GITHOOKS_CONFIGFILE_PATH__ = os.path.join(__BASE_DIR__, CONFIG_FILENAME)
 
