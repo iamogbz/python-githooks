@@ -103,7 +103,7 @@ def test_git_hook_execution_no_config(mocker):
     """execute_git_hook helper function should exit if not valid configuration file is provided"""
     mocked_sys_exit = mocker.patch("sys.exit")
     execute_git_hook(hook_name="pre-commit", configfile_path="wrong_config_file.ini")
-    mocked_sys_exit.assert_called_once_with(1)
+    mocked_sys_exit.assert_not_called()
 
 
 def test_git_hook_execution_exit(mocker, workspace_with_config):

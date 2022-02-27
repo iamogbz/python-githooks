@@ -32,13 +32,14 @@ def _get_config_file(configfile_path):
         return config
 
 
-def _unable_to_find_config():
+def _unable_to_find_config(exit=True):
     message = """
         Unable to find the ".githooks.ini" configuration file.
         Please, create it and try again.
         """
     print(message)
-    sys.exit(1)
+    if exit:
+        sys.exit(1)
 
 
 def _command_is_githook_shim(command):
@@ -145,7 +146,7 @@ def execute_git_hook(*, hook_name, configfile_path):
     config = _get_config_file(configfile_path)
     if not config:
         print(action)
-        return _unable_to_find_config()
+        return _unable_to_find_config(False)
 
     if config.has_option(hook_name, CONFIG_COMMAND_KEY):
         command = config[hook_name][CONFIG_COMMAND_KEY]
