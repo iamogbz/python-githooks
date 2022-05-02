@@ -2,16 +2,18 @@ version: 2
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: circleci/python:3.6.6
+    - image: cimg/python:3.6
 jobs:
   build:
     <<: *defaults
     steps:
       - checkout
+      - run:
+          name: write cache key
+          command: echo $CACHE_KEY > /tmp/cache-key
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "requirements.txt" }}
-          - v1-dependencies-
+          - v1-dependencies-{{ checksum "/tmp/cache-key" }}-{{ checksum "requirements.txt" }}
       - run:
           name: install dependencies
           command: |
@@ -22,14 +24,17 @@ jobs:
       - save_cache:
           paths:
           - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
+          key: v1-dependencies-{{ checksum "/tmp/cache-key" }}-{{ checksum "requirements.txt" }}
   test:
     <<: *defaults
     steps:
       - checkout
+      - run:
+          name: write cache key
+          command: echo $CACHE_KEY > /tmp/cache-key
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "requirements.txt" }}
+          - v1-dependencies-{{ checksum "/tmp/cache-key" }}-{{ checksum "requirements.txt" }}
           - v1-dependencies-
       - run:
           name: run tests and linting
@@ -46,9 +51,12 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - run:
+          name: write cache key
+          command: echo $CACHE_KEY > /tmp/cache-key
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "requirements.txt" }}
+          - v1-dependencies-{{ checksum "/tmp/cache-key" }}-{{ checksum "requirements.txt" }}
           - v1-dependencies-
       - run:
           name: verify git tag vs. version
