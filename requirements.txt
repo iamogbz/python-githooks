@@ -3,7 +3,7 @@ attrs==22.1.0
 configparser==5.2.0
 coverage==6.2
 coveralls==3.3.1
-flake8==4.0.1
+flake8==5.0.4
 mccabe==0.6.1
 more-itertools==8.13.0
 pluggy==1.0.0
