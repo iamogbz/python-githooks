@@ -3,6 +3,6 @@ coveralls==3.3.1
 flake8==6.1.0
 py==1.11.0
 pyflakes==3.1.0
-pytest==7.4.0
+pytest==7.4.1
 pytest-cov==4.1.0
 pytest-mock==3.11.1
