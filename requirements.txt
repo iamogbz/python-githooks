@@ -1,5 +1,5 @@
 configparser==7.0.0
-coveralls==4.0.0
+coveralls==4.0.1
 flake8==6.1.0
 py==1.11.0
 pyflakes==3.1.0
