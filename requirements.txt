@@ -1,4 +1,4 @@
-configparser==7.0.0
+configparser==7.1.0
 coveralls==4.0.1
 flake8==7.1.1
 py==1.11.0
